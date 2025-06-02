@@ -179,4 +179,35 @@ except requests.exceptions.Timeout as errt:
 except requests.exceptions.RequestException as err:
     print("Other Error:", err)
 ```
+# ❓ הבדל בין HTTP ל־HTTPS ב־`requests`
+
+## ✅ תשובה:
+
+בספריית `requests`, אין **שום צורך או שינוי בקוד** כדי לעבוד עם HTTPS במקום HTTP.
+
+📌 פשוט מחליפים את כתובת ה־URL:
+
+```python
+# HTTP
+requests.get("http://example.com")
+
+# HTTPS (מאובטח)
+requests.get("https://example.com")
+````
+
+## 🔐 מה קורה מאחורי הקלעים?
+
+* `requests` מבוססת על `urllib3` ו־OpenSSL.
+* כאשר אתה משתמש ב־`https://`, הספרייה מטפלת אוטומטית בהצפנה, אימות TLS/SSL, ובדיקת תעודות אבטחה (SSL certificates).
+* ניתן להוסיף פרמטר כמו `verify=False` כדי לדלג על אימות תעודה (לבדיקות בלבד!):
+
+```python
+requests.get("https://self-signed.badssl.com/", verify=False)
+```
+
+> ⚠️ שימוש ב־`verify=False` עלול לחשוף אותך לתקיפות MITM – יש להשתמש רק בסביבת פיתוח או בדיקות.
+
+---
+
+✅ בשורה התחתונה: אין צורך בפקודות אחרות – פשוט כתוב `https://` במקום `http://`.
 
